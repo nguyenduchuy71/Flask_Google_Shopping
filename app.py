@@ -2,10 +2,14 @@ import os
 import requests
 from flask import Flask, request
 from flask_cors import CORS
-from settings import USERNAME, PASSWORD
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 cors = CORS(app)
+USERNAME = os.getenv('OXYLABUSERNAME')
+PASSWORD = os.getenv('OXYLABPASSWORD')
 
 
 @app.route('/', methods=['GET'])
@@ -24,7 +28,6 @@ def get_product():
             'parse': True,
             'context': [],
         }
-        print(f'data:{data}')
         if data['nameProduct'] != '':
             payload['query'] = data['nameProduct']
         if data['pages'] != '':
