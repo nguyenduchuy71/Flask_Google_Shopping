@@ -46,8 +46,7 @@ def get_product():
         )
         return {'status_code': 200, 'list_product': response.json()}
     except Exception as e:
-        print(e)
-        return {'status_code': 400}
+        return {'status_code': 400, 'error': e}
 
 
 @app.route('/get_product/<productId>', methods=['GET'])
@@ -66,8 +65,8 @@ def get_product_by_id(productId):
             json=payload,
         )
         return {'status_code': 200, 'product': response.json()}
-    except Exception:
-        return {'status_code': 400}
+    except Exception as e:
+        return {'status_code': 400, 'error': e}
 
 
 if __name__ == '__main__':
