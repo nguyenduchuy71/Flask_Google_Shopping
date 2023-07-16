@@ -72,4 +72,4 @@ def get_product_by_id(productId):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5555))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=False, host='0.0.0.0', port=port)

@@ -1,6 +1,5 @@
 ![flask-image](./img/python-flask.jpeg)
 
-
 ## Installation
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
@@ -17,13 +16,11 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-
 ## Run
 
 ```bash
-python3 server.py
+python3 app.py
 ```
-
 
 ## License
 
