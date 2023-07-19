@@ -8,8 +8,8 @@ load_dotenv()
 
 app = Flask(__name__)
 cors = CORS(app)
-USERNAME = os.getenv('OXYLABUSERNAME')
-PASSWORD = os.getenv('OXYLABPASSWORD')
+USERNAME = "ndhuy"
+PASSWORD = "18066791#Huy"
 
 
 @app.route('/', methods=['GET'])
