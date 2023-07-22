@@ -6,10 +6,8 @@ COPY . .
 
 RUN python3 -m pip install --upgrade pip
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --no-cache-dir
 
-ENV PORT 5555
+EXPOSE 3000
 
-EXPOSE 5555
-
-CMD ["python", "server.py"]
+CMD ["python", "app.py"]

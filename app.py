@@ -1,23 +1,30 @@
 import os
 import requests
 from flask import Flask, request
+from flask_caching import Cache
 from flask_cors import CORS
 from dotenv import load_dotenv
 
 load_dotenv()
 
+USERNAME = os.getenv("USERNAME")
+PASSWORD = os.getenv("PASSWORD")
+TIME_EXPIRATION = os.getenv("TIME_EXPIRATION", 10)
+REDIS_PORT = os.getenv("REDIS_PORT", 6379)
+URL = 'https://realtime.oxylabs.io/v1/queries'
+
 app = Flask(__name__)
 cors = CORS(app)
-USERNAME = "ndhuy"
-PASSWORD = "18066791#Huy"
-
+cache = Cache(app, config={'CACHE_TYPE': 'redis', 'CACHE_REDIS_URL': f'redis://localhost:{REDIS_PORT}/0'})
 
 @app.route('/', methods=['GET'])
+@cache.cached(timeout=TIME_EXPIRATION)
 def index():
     return '<b>This is server for getting product from google shopping!</b>'
 
 
 @app.route('/get_product', methods=['POST'])
+@cache.cached(timeout=TIME_EXPIRATION)
 def get_product():
     try:
         data = request.json
@@ -43,7 +50,7 @@ def get_product():
                 {'key': 'max_price', 'value': data['maxPrice']})
         response = requests.request(
             'POST',
-            'https://realtime.oxylabs.io/v1/queries',
+            URL,
             auth=(USERNAME, PASSWORD),
             json=payload,
         )
@@ -53,6 +60,7 @@ def get_product():
 
 
 @app.route('/get_product/<productId>', methods=['GET'])
+@cache.cached(timeout=TIME_EXPIRATION)
 def get_product_by_id(productId):
     try:
         payload = {
@@ -63,7 +71,7 @@ def get_product_by_id(productId):
         }
         response = requests.request(
             'POST',
-            'https://realtime.oxylabs.io/v1/queries',
+            URL,
             auth=(USERNAME, PASSWORD),
             json=payload,
         )
@@ -73,5 +81,5 @@ def get_product_by_id(productId):
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5555))
+    port = int(os.getenv('PORT', 3001))
     app.run(debug=False, host='0.0.0.0', port=port)
